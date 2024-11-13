@@ -1,5 +1,4 @@
 /**
- *  @file    plons_grapons.hpp
  *  @author  Anstro Pleuton (https://github.com/anstropleuton)
  *  @brief   Plons GUI Library.
  *

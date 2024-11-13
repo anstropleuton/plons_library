@@ -1,5 +1,4 @@
 /**
- *  @file    plons_math.hpp
  *  @author  Anstro Pleuton (https://github.com/anstropleuton)
  *  @brief   Mathematical functions and translation across dependencies.
  *

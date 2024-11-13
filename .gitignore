@@ -42,3 +42,6 @@ build
 
 # Generated documentation files
 docs
+
+# Temporary files
+tmp

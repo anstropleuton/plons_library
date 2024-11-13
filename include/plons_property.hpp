@@ -1,5 +1,4 @@
 /**
- *  @file    plons_property.hpp
  *  @author  Anstro Pleuton (https://github.com/anstropleuton)
  *  @brief   C# "property" ported to C++ (kinda).
  *
@@ -62,6 +61,11 @@ struct property_readonly {
     std::function<T()> getter;
 
     /**
+     *  @brief  Default constructors keeps getter empty.
+     */
+    inline constexpr property_readonly() = default;
+
+    /**
      *  @brief  Creates property using getter.
      *  @param  getter  The getter function.
      */
@@ -69,7 +73,7 @@ struct property_readonly {
         : getter(getter) {}
 
     /**
-     *  @brief  Casting value to the property type will run getter.
+     *  @brief  Casting to value type will run getter.
      *  @return  Value returned from getter.
      */
     [[nodiscard]] inline constexpr operator T () const
@@ -78,218 +82,313 @@ struct property_readonly {
     }
 
     /**
-     *  @brief  Add value to the property's value.
+     *  @brief  Add value with the property's value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Addition of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator+ (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator+ (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() + o;
+        return prop.getter() + o;
     }
 
     /**
      *  @brief  Subtract other value from the property's value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Subtraction of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator- (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator- (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() - o;
+        return prop.getter() - o;
     }
 
     /**
      *  @brief  Multiply property's value by other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Multiplication of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator* (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator* (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() * o;
+        return prop.getter() * o;
     }
 
     /**
      *  @brief  Divide property's value by other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Division of property's value by other value.
      */
-    [[nodiscard]] inline constexpr auto operator/ (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator/ (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() / o;
+        return prop.getter() / o;
     }
 
     /**
      *  @brief  Modulus of property's value by other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Modulus of property's value by other value.
      */
-    [[nodiscard]] inline constexpr auto operator% (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator% (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() % o;
+        return prop.getter() % o;
     }
 
     /**
      *  @brief  Bitwise XOR of property's value and other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Bitwise XOR of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator^ (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator^ (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() ^ o;
+        return prop.getter() ^ o;
     }
 
     /**
      *  @brief  Bitwise AND of property's value and other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Bitwise AND of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator& (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator& (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() & o;
+        return prop.getter() & o;
     }
 
     /**
      *  @brief  Bitwise OR of property's value and other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Bitwise OR of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator| (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator| (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() | o;
+        return prop.getter() | o;
     }
 
     /**
      *  @brief  Left shift property's value by other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Left shift of property's value by other value.
      */
-    [[nodiscard]] inline constexpr auto operator<< (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator<< (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() << o;
+        return prop.getter() << o;
     }
 
     /**
      *  @brief  Right shift property's value by other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Right shift of property's value by other value.
      */
-    [[nodiscard]] inline constexpr auto operator>> (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator>> (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() >> o;
+        return prop.getter() >> o;
     }
 
     /**
      *  @brief  Logical AND of property's value and other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Logical AND of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator&& (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator&& (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() && o;
+        return prop.getter() && o;
     }
 
     /**
      *  @brief  Logical OR of property's value and other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  Logical OR of property's value and other value.
      */
-    [[nodiscard]] inline constexpr auto operator|| (const T &o) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator|| (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() || o;
+        return prop.getter() || o;
     }
 
     /**
      *  @brief  Get the bitwise NOT of property's value.
      *  @return  Bitwise NOT of property's value.
      */
-    [[nodiscard]] inline constexpr auto operator~ () const
+    [[nodiscard]] friend inline constexpr auto operator~ (
+        const property_readonly &prop
+    )
     {
-        return ~getter();
+        return ~prop.getter();
     }
 
     /**
      *  @brief  Get the logical NOT of property's value.
      *  @return  Logical NOT of property's value.
      */
-    [[nodiscard]] inline constexpr auto operator! () const
+    [[nodiscard]] friend inline constexpr auto operator! (
+        const property_readonly &prop
+    )
     {
-        return !getter();
+        return !prop.getter();
     }
 
     /**
      *  @brief  Compare if property's value is less than other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  True if property's value is less than other value, false otherwise.
      */
-    [[nodiscard]] inline constexpr auto operator< (
-        const T &o
-    ) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator< (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() < o;
+        return prop.getter() < o;
     }
 
     /**
      *  @brief  Compare if property's value is less than or equal to other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  True if property's value is less than or equal to other value, false otherwise.
      */
-    [[nodiscard]] inline constexpr auto operator<= (
-        const T &o
-    ) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator<= (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() <= o;
+        return prop.getter() <= o;
     }
 
     /**
      *  @brief  Compare if property's value is greater than other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  True if property's value is greater than other value, false otherwise.
      */
-    [[nodiscard]] inline constexpr auto operator> (
-        const T &o
-    ) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator> (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() > o;
+        return prop.getter() > o;
+    }
+
+    /**
+     *  @brief  Compare if property's value is greater than or equal to other value.
+     *
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
+     *  @return  True if property's value is greater than or equal to other value, false otherwise.
+     */
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator>= (
+        const property_readonly &prop,
+        const U                 &o
+    )
+    {
+        return prop.getter() > o;
     }
 
     /**
      *  @brief  Compare if property's value is equal to other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  True if property's value is equal to other value, false otherwise.
      */
-    [[nodiscard]] inline constexpr auto operator== (
-        const T &o
-    ) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator== (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() == o;
+        return prop.getter() == o;
     }
 
     /**
      *  @brief  Compare if property's value is not equal to other value.
      *
-     *  @param  o  The other value.
+     *  @tparam  U  The type of other value.
+     *  @param   o  The other value.
      *  @return  True if property's value is not equal to other value, false otherwise.
      */
-    [[nodiscard]] inline constexpr auto operator!= (
-        const T &o
-    ) const
+    template<typename U>
+    [[nodiscard]] friend inline constexpr auto operator!= (
+        const property_readonly &prop,
+        const U                 &o
+    )
     {
-        return getter() != o;
+        return prop.getter() != o;
     }
 
     /**
@@ -300,7 +399,7 @@ struct property_readonly {
      *  @return  Result of calling property's value with arguments.
      */
     template<typename... Args>
-    inline constexpr auto operator() (Args &&... args) const
+    inline constexpr auto operator() (Args &&... args)
     {
         return getter()(std::forward<Args>(args)...);
     }
@@ -313,7 +412,7 @@ struct property_readonly {
      *  @return  Result of indexing property's value with arguments.
      */
     template<typename... Args>
-    inline constexpr auto operator[] (Args &&... args) const
+    inline constexpr auto operator[] (Args &&... args)
     {
         return getter()[std::forward<Args>(args)...];
     }
